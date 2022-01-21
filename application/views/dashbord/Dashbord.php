@@ -12,12 +12,12 @@
     </div>
     <div class="container d-flex justify-content-center p-5">
         <div class="col-6 d-flex justify-content-center">
-            <a href="<?php echo site_url('Home/login')?>">
+            <a href="<?php echo site_url('login')?>">
                 <button type="button" class="btn btn-primary">Login</button>
             </a>
         </div>
         <div class="col-6 "> 
-            <a href="<?php echo site_url('Home/sign_up')?>">
+            <a href="<?php echo site_url('sign_up')?>">
                 <button type="button" class="btn btn-info">Sign up</button>
             </a>
         </div>

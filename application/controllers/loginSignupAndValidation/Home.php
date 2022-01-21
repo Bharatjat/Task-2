@@ -3,30 +3,38 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Home extends CI_Controller
 {
+	
+	/* this is to set initial value of token variable to null*/
 	public $token = NULL;
 
-	public function index()
-	{
-		$this->load->view('Dashbord');
-	}
-
+	/* load login page */
 	public function login()
 	{
-		$this->load->view('login');
+		$this->load->view('loginSignup/login');
 	}
 
-	public function sign_up()
+	/* load signup page */
+	public function signUp()
 	{
-		$this->load->view('sign_up');
+		$this->load->view('loginSignup/signUp');
 	}
-	public function validation_user_registration()
+
+	/* this function is to logout user by deleting user session and redirecting it to dashbord */
+    public function logout()
+    {
+        $this->session->unset_userdata('id');
+        redirect('login');
+    }
+
+	/* validate user on signup time */
+	public function validationUserRegistration()
 	{
-		$this->form_validation->set_rules('name', 'username', 'required|is_unique[project1.name]');
-		$this->form_validation->set_rules('email', 'Email', 'required|is_unique[project1.email]');
+		$this->form_validation->set_rules('name', 'username', 'required|is_unique[user.name]');
+		$this->form_validation->set_rules('email', 'Email', 'required|is_unique[user.email]');
 		$this->form_validation->set_message('is_unique', 'the %s is already taken');
 		$this->form_validation->set_message('required', '%s is required');
 		if ($this->form_validation->run() == false) {
-			$this->load->view('sign_up');
+			$this->load->view('loginSignup/sign_up');
 		} else {
 			date_default_timezone_set('Asia/Kolkata'); # add your city to set local time zone
 			$now = date('Y-m-d H:i:s');
@@ -46,7 +54,7 @@ class Home extends CI_Controller
 				$to = $this->input->post('email', TRUE);
 				$from = 'Bjat123bk@gmail.com';
 				$subject = 'This is a account verification mail';
-				$emailContent = "To verify your account <br> click <a href=\"http://localhost/ci/ci1/index.php/Home/ActivateUser?token=$token\">hear</a> ";
+				$emailContent = "To verify your account <br> click <a href=\"http://localhost/ci/ci1/Activate_User?token=$token\">hear</a> ";
 
 				$config['protocol']    = 'smtp';
 				$config['smtp_host']    = 'ssl://smtp.gmail.com';
@@ -66,19 +74,20 @@ class Home extends CI_Controller
 				$this->email->subject($subject);
 				$this->email->message($emailContent);
 				if ($this->email->send()) {
-					echo "email send successfully";
+					$this->session->set_flashdata('email_send_success', 'Verifie your account <br> check email to verification');
 				} else {
 					echo "something went wrong email not send";
 				}
-				redirect('home/login', 'refresh');
+				redirect('login');
 			} else {
 				$error['sign_up_error'] = 'Something went wrong';
-				$this->load->view('signup', $error);
+				$this->load->view('loginSignup/signup', $error);
 			}
 		}
 	}
 
-	public function validation_user_login()
+	/* validate user on login time */
+	public function validationUserLogin()
 	{
 		$data = array(
 			"EmailOrName" => $this->input->post('NameOrEmail', TRUE),
@@ -88,35 +97,40 @@ class Home extends CI_Controller
 		$response = $this->Validation->login($data);
 		if (is_numeric($response)) {
 			$this->session->set_userdata('id', $response);
-			redirect('user/verified');
+			$this->load->view('optionPage');
 		} else {
 			if ($response == 'unverified') {
-				$error['unverified'] = '!Check your mail and verifiy it.';
-				$this->load->view('login', $error);
+				$this->session->set_flashdata('Email_unverified', '!Check your mail and verifiy your account.');
+				$error['unverified'] = '!Check your mail and verifiy your account.';
+				$this->load->view('loginSignup/login', $error);
 			} elseif ($response == 'unmatch') {
+				$this->session->set_flashdata('Email_unmatch', '!Wrong crediential');
 				$error['unmatch'] = '!Wrong crediential';
-				$this->load->view('login', $error);
+				$this->load->view('loginSignup/login', $error);
 			}
 		}
 	}
 
+	/* activate user when varification link is been clicked */
 	public function ActivateUser()
 	{
 		$t = $this->input->get('token', TRUE);
 		$this->load->model('Validation');
 		$response = $this->Validation->ValidateToken($t);
 		if ($response == TRUE) {
-			redirect('Home/login');
+			redirect('login');
 		} else {
 			echo "<error> something went wrong or email is envalid.</error>";
 		}
 	}
 
+	/* load forget password page */
 	public function ForgetPass()
 	{
-		$this->load->view('Forget_Password');
+		$this->load->view('forgetCreatPassword/ForgetPassword');
 	}
 
+	/* sending reset password link to user mail */
 	public function ResetPasswordMail()
 	{
 		$token = bin2hex(random_bytes(15));
@@ -129,8 +143,8 @@ class Home extends CI_Controller
 		if ($response == TRUE) {
 			$to = $this->input->post('Email', TRUE);
 			$from = 'Bjat123bk@gmail.com';
-			$subject = 'This is a account verification mail';
-			$emailContent = "To verify your account <br> click <a href=\"http://localhost/ci/ci1/index.php/Home/CreateNewPassword?token=$token\">hear</a> ";
+			$subject = 'This is a account password changing mail';
+			$emailContent = "To change your account password <br> click <a href=\"http://localhost/ci/ci1/Create_New_Password?token=$token\">hear</a> ";
 
 			$config['protocol']    = 'smtp';
 			$config['smtp_host']    = 'ssl://smtp.gmail.com';
@@ -158,6 +172,7 @@ class Home extends CI_Controller
 		}
 	}
 
+	/* creating new password  */
 	public function CreateNewPassword()
 	{
 		$t = $this->input->get('token', TRUE);
@@ -165,7 +180,7 @@ class Home extends CI_Controller
 		$response = $this->Validation->CheckUserToken($t);
 		if ($response != FALSE) {
 			$data = array('UserEmail' => $response);
-			$this->load->view('Create_Password',$data);
+			$this->load->view('forgetCreatPassword/CreateNewPassword',$data);
 		} else {
 			echo "Something went wrong";
 		}
@@ -180,7 +195,7 @@ class Home extends CI_Controller
 		$this->load->model('Validation');
 		$response = $this->Validation->SaveUserPassword($data);
 		if ($response == TRUE) {
-			redirect('Home/login');
+			redirect('login');
 		}else{
 			echo "Something went wrong";
 		}

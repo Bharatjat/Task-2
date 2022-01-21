@@ -17,7 +17,7 @@
                         <div class="card" style="border-radius: 15px;">
                             <div class="card-body p-5">
                                 <h2 class="text-uppercase text-center mb-5">Login to account</h2>
-                                <?php echo form_open('Home/validation_user_login', ['autocomplete' => 'on']) ?>
+                                <?php echo form_open('loginValidation', ['autocomplete' => 'on']) ?>
                                 <error class="text-danger">
                                     <?php
                                     if (isset($unverified)) {
@@ -63,8 +63,8 @@
                                     <error id="reg_error" class="text-danger offset-1"></error>
                                 </div>
 
-                                <p class="text-center text-muted mt-5 mb-0">Want to create an account? <a href="<?php echo site_url('Home/sign_up') ?>" class="fw-bold text-body"><u>register here</u></a></p>
-                                <p class="text-center text-muted mt-5 mb-0">forget password<a href="<?php echo site_url('Home/ForgetPass') ?>" class="fw-bold text-body"><u>Click here</u></a></p>
+                                <p class="text-center text-muted mt-5 mb-0">Want to create an account? <a href="<?php echo site_url('sign_up') ?>" class="fw-bold text-body"><u>register here</u></a></p>
+                                <p class="text-center text-muted mt-5 mb-0">forget password<a href="<?php echo site_url('ForgetPass') ?>" class="fw-bold text-body"><u>Click here</u></a></p>
                                 </form>
 
                             </div>

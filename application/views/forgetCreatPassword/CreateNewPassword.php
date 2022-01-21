@@ -17,7 +17,7 @@
                         <div class="card" style="border-radius: 15px;">
                             <div class="card-body p-5">
                                 <h2 class="text-uppercase text-center mb-5">Reset password</h2>
-                                <?php echo form_open('Home/SaveNewPassword', ['onsubmit' => 'return validate()', 'autocomplete' => 'on']) ?>
+                                <?php echo form_open('SaveNewPassword', ['onsubmit' => 'return validate()', 'autocomplete' => 'on']) ?>
 
                                 <div class="form-outline mb-3">
                                     <?php $data = [

@@ -22,7 +22,7 @@
                                 }else {
                                     echo "";
                                 }?>
-                                <?php echo form_open('Home/validation_user_registration', ['onsubmit' => 'return validate()', 'autocomplete' => 'on']) ?>
+                                <?php echo form_open('signUpValidation', ['onsubmit' => 'return validate()', 'autocomplete' => 'on']) ?>
                                 <div class="form-outline mb-3">
                                     <?php $data = [
                                         'type' => 'text',
@@ -120,7 +120,7 @@
                                     <error id="reg_error" class="text-danger offset-1"></error>
                                 </div>
 
-                                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="<?php echo site_url('Home/login') ?>" class="fw-bold text-body"><u>Login here</u></a></p>
+                                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="<?php echo site_url('login') ?>" class="fw-bold text-body"><u>Login here</u></a></p>
 
                                 </form>
 

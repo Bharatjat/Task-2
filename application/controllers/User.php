@@ -1,20 +1,18 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+header("Access-Control-Allow-Origin: *");
 
 class User extends CI_Controller
 {
-    public function verified()
+    public function __construct()
     {
-        $this->load->library('session');
-        if (!($this->session->userdata('id'))) {
-            redirect('Home/login');
-        }
-        $this->load->view('home');
+        parent::__construct();
+        // $this->load->model('UserModel');
     }
 
-    public function logout()
+    public function index()
     {
-        $this->session->unset_userdata('id');
-        redirect('Home');
+        $this->load->view();
     }
 }
+

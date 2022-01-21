@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -49,6 +49,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'Home';
+$route['default_controller'] = 'Dashbord';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['loginValidation'] = 'loginSignupAndValidation/Home/validationUserLogin';      // redirect rto login validation controller
+$route['login'] = 'loginSignupAndValidation/Home/login';         // redirect to login page view
+$route['sign_up'] = 'loginSignupAndValidation/Home/signUp';     // redirect to sign up page view
+$route['ForgetPass'] = 'loginSignupAndValidation/Home/ForgetPass';       // redirect to forget password page view
+$route['SaveNewPassword'] = 'loginSignupAndValidation/Home/SaveNewPassword';
+$route['signUpValidation'] = 'loginSignupAndValidation/Home/validationUserRegistration';         // redirect to sign up validation controller
+$route['logout'] = 'loginSignupAndValidation/Home/logout';           // to validation controller
+$route['ForgetPassword'] = 'loginSignupAndValidation/Home/ResetPasswordMail';   //redirect user forget password view to resetPassswordMail 
+$route['Create_New_Password'] = 'loginSignupAndValidation/Home/CreateNewPassword';
+$route['Activate_User'] = 'loginSignupAndValidation/Home/ActivateUser';
+
+// for subject detail system 
+    $route['subjectHomePage'] = 'subject/Subject/index';
+    $route['searchSubject'] = 'subject/Subject/searchSubject';             // redirect to search controller in user class
+    $route['allSubjectDetails'] = 'subject/Subject/viewAll';                      // redirect to view all controller in user class
+    $route['deleteSubject'] = 'subject/Subject/delete';                    // redirect to delete controller in user class
+    $route['addSubj'] = 'subject/Subject/addSubject';                      // redirect to add new subject controller
+    $route['viewSelectedData'] = 'subject/Subject/viewSelectedData';       //redirect to view user selected data
+    $route['updateSelectedData'] = 'subject/Subject/updateSelectedData';   // redirect to update selscted data in user controller
+
+/* for download */
+    $route['excelDownload'] = 'Download/Download/excelDownload';
+    $route['pdfDownload'] = 'Download/Download/pdfDownload';
+
+/* for Employee detail system */
+    $route['employeeHomePage'] = 'employee/Employee/index';
+    $route['allEmployeeDetails'] = 'employee/Employee/viewAll';
+    $route['deleteSubject'] = 'employee/Employee/delete';
+    $route['searchEmployee'] = 'employee/Employee/search';
+    $route['fillEmployee'] = 'employee/Employee/fillDetail';
+    $route['addEmployee'] = 'employee/Employee/addEmployee';
+    $route['getSelectedEmployeeDetail'] = 'employee/Employee/selectedEmployeeDetails';
+
+/* for User Detail Page */
+    $route['UserDetailPage'] = 'user/User/index';
+    $route['allUserDetails'] = 'user/User/viewAll';
+    $route['addNewUserDetail'] = 'user/User/addNewUser';
+    $route['searchUserDetail'] = 'user/User/searchUserDetail';
+
+/* for chef */
+    $route['getLevel'] = 'Chef/getLevel';
+    $route['getCuisines'] = 'Chef/getCuisines';
+    $route['maxNoPeopleServe'] = 'Chef/maxNoPeopleServe';
+    $route['getqualifications'] = 'Chef/getqualifications';
+    $route['saveChef'] = 'Chef/saveChef';
+    $route['getAllChefData'] = 'Chef/getAllChefData';
+    $route['viewData'] = 'Chef/viewData';
+    $route['editChef'] = 'Chef/editChef';
+
+/* for userchef */
+    $route['loadChefForEvent'] = 'userChef/UserChef/loadChefForEvent';
+    $route['saveChefEvent'] = 'userChef/UserChef/saveChefEvent';
+    $route['getAllUserChefEvent'] = 'userChef/UserChef/getAllUserChefEvent';
+
+/* for products in payment gateway paypal */
+    $route['getAllProducts'] = 'paymentGateway/products/getAllProducts';
